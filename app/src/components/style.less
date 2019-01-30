@@ -1,0 +1,92 @@
+.lay-menu {
+  position: relative;
+  flex: 0 0 200px;
+  background: #344554;
+  .lay-menu-item {
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px;
+    color: #fff;
+    cursor: pointer;
+    &.menu-active {
+      background: #000
+    }
+  }
+  .menu-switch {
+    height: 13px;
+    line-height: 11px;
+    width: 22px;
+    min-width: 22px;
+    border: 1px solid #ccc;
+    &::after {
+      width: 9px;
+      height: 9px;
+    }
+    &.ant-switch-checked {
+      background: none;
+      border: 1px solid #13c2c2;
+      &::after {
+        background: #13c2c2
+      }
+    }
+  }
+  .menu-footer-tools {
+    position: absolute;
+    bottom: 10px;
+    padding: 0 10px;
+    font-size: 16px;
+    i {
+      color: #13C2C2;
+      font-size: 16px;
+      cursor: pointer;
+    }
+  }
+  .context-menu {
+    position: absolute;
+    border: 1px solid #dde0e4;
+    border-radius: 5px;
+    box-shadow: 0 0 8px #ccc;
+    background: #ccc;
+    span {
+      display: block;
+      line-height: 23px;
+      white-space: nowrap;
+      position: relative;
+      z-index: 1;
+      padding: 0 27px 0 20px;
+      cursor: pointer;
+    }
+  }
+}
+
+.lay-host {
+  width: 500px;
+  position: relative;
+  .host-readonly {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    z-index: 999;
+    font-size: 16px;
+  }
+  textarea {
+    height: 100%;
+    width: 100%;
+  }
+  :global {
+    .CodeMirror {
+      height: 100%;
+    }
+    .CodeMirror-gutters {
+      border-right: none;
+    }
+    .cm-s-idea .cm-comment {
+      color: #090;
+    }
+    .cm-s-idea span.cm-number {
+      color: inherit
+    }
+  }
+}
