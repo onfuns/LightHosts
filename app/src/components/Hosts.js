@@ -30,15 +30,13 @@ class Hosts extends Component {
     })
 
     this.codeMirrorEditor.on('gutterClick', (cm, n) => {
+      const { readOnly = false } = this.getRecord()
+      //只读状态
+      if (readOnly) return
       let info = cm.lineInfo(n)
       let ln = info.text
       if (/^\s*$/.test(ln)) return
-      let new_ln
-      if (/^#/.test(ln)) {
-        new_ln = ln.replace(/^#\s*/, '')
-      } else {
-        new_ln = '# ' + ln
-      }
+      let new_ln = /^#/.test(ln) ? ln.replace(/^#\s*/, '') : '# ' + ln
       this.codeMirrorEditor.getDoc()
         .replaceRange(new_ln, { line: info.line, ch: 0 }, {
           line: info.line,

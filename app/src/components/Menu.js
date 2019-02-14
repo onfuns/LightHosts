@@ -86,14 +86,14 @@ class Menu extends Component {
 
   render() {
     const { hostList, currentSelect, showPwdModal, showAddMdoal } = this.store
-    const selected = toJS(currentSelect)
+    const { name: selectedName } = toJS(currentSelect)
     const { contextmenu: { visible, x, y, detail } } = this.state
     return (
       <div className="lay-menu">
         {
           hostList.map(item => (
             <div
-              className={`lay-menu-item ${selected.name === item.name && 'menu-active'}`}
+              className={`lay-menu-item ${selectedName === item.name && 'menu-active'}`}
               onClick={() => this.onSelect(item)}
               onContextMenu={(e) => this.onContextMenu(e, item)}
               key={item.id}

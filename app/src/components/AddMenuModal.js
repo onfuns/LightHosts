@@ -7,8 +7,8 @@ const Add = observer(({ onClose, form, hostStore, detail = {} }) => {
   const handleSubmit = () => {
     form.validateFields(async (err, { name }) => {
       if (!err) {
+        const { id = '' } = detail
         try {
-          const { id = '' } = detail
           const { hostList, update, add } = hostStore
           if (hostList.includes(name)) {
             return message.error('已有同名文件')
@@ -18,11 +18,11 @@ const Add = observer(({ onClose, form, hostStore, detail = {} }) => {
           } else {
             await add({ name })
           }
-          message.success(`${id ? '编辑' : '新增'}成功`)
+          message.success(`操作成功`)
           onClose && onClose()
         } catch (err) {
           console.log(err)
-          message.error(`${id ? '编辑' : '新增'}失败`)
+          message.error(`操作失败`)
         }
       }
     })
@@ -35,7 +35,7 @@ const Add = observer(({ onClose, form, hostStore, detail = {} }) => {
   const { getFieldDecorator } = form
   return (
     <Modal
-      title="新增Host方案"
+      title="host方案"
       visible={true}
       width={400}
       onCancel={onClose}
@@ -48,9 +48,9 @@ const Add = observer(({ onClose, form, hostStore, detail = {} }) => {
         >
           {getFieldDecorator('name', {
             initialValue: detail.name || '',
-            rules: [{ required: true, min: 2, max: 8, message: '名称由2 ~ 8个字符组成' }]
+            rules: [{ required: true, min: 2, max: 10, message: '名称由2 ~ 10个字符组成' }]
           })(
-            <Input placeholder="名称由2 ~ 8个字符组成" />
+            <Input placeholder="名称由2 ~ 10个字符组成" />
           )}
         </FormItem>
       </Form>

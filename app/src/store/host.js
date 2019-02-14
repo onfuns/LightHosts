@@ -12,7 +12,6 @@ const FILE_NAME = 'HOST_FILE'
 storage.setDataPath(MAC_FILE_PATH)
 
 class Menu {
-
   constructor() {
     this.init()
   }

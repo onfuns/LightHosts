@@ -3,9 +3,7 @@ let path = require('path');
 const merge = require('webpack-merge')
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const baseWebpackConfig = require('./webpack.base.config')
-const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
-
-
+const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer')
 const join = (name) => path.join(__dirname, name)
 
 module.exports = merge(baseWebpackConfig, {

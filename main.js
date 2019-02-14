@@ -40,35 +40,28 @@ if (process.platform === 'darwin') {
   })
 }
 
-let mainWindow;
+let mainWindow
 function createWindow() {
   mainWindow = new BrowserWindow({
     webPreferences: { webSecurity: false },
     width: 700,
     height: 500,
-    //frame: false,
-    //transparent: true,
-    //titleBarStyle: 'hidden',
     resizable: false,
     title: "LightHosts"
-    //alwaysOnTop: 'top'
-  });
-  //setTimeout(() => mainWindow.setAlwaysOnTop(true), 1000); //置顶窗口
-
+  })
   mainWindow.loadURL(isDev ? `file://${__dirname}/app/build/index.html` : `file://${__dirname}/index.html`)
-
   if (!isDev) {
     let menu = Menu.buildFromTemplate(menuTemplate)
-    Menu.setApplicationMenu(menu);
+    Menu.setApplicationMenu(menu)
   }
 }
 
-app.on('ready', createWindow);
+app.on('ready', createWindow)
 app.on('activate', function () {
   // On OS X it's common to re-create a window in the app when the
   // dock icon is clicked and there are no other windows open.
   if (mainWindow === null) {
-    createWindow();
+    createWindow()
   }
 })
 app.on('window-all-closed', () => {
