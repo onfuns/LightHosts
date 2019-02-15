@@ -5,17 +5,18 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 const baseWebpackConfig = require('./webpack.base.config')
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer')
 const join = (name) => path.join(__dirname, name)
+const DIST_FILE_PATH = '../package/dist'
 
 module.exports = merge(baseWebpackConfig, {
 	mode: 'production',
 	entry: {
 		'app': [
 			'babel-polyfill',
-			join('../app/src/index.js')
+			join('../index.js')
 		],
 	},
 	output: {
-		path: join('../app/build'),
+		path: join(DIST_FILE_PATH),
 		filename: 'app.bundle.js',
 		publicPath: './',
 		chunkFilename: '[name].js'
@@ -24,21 +25,7 @@ module.exports = merge(baseWebpackConfig, {
 	optimization: {
 		splitChunks: {
 			cacheGroups: {
-				default: false,
-				antd: {
-					test: /[\\/]node_modules[\\/](antd|@ant-design|rc-[\w]+)[\\/]/,
-					name: 'antd',
-					chunks: 'all',
-					minChunks: 1,
-					priority: 10
-				},
-				vendor: {
-					test: /[\\/]node_modules[\\/]/,
-					name: 'vendor',
-					chunks: 'all',
-					minChunks: 1,
-					priority: 0
-				}
+				default: false
 			},
 		}
 	},
@@ -48,11 +35,15 @@ module.exports = merge(baseWebpackConfig, {
 		new CopyWebpackPlugin([
 			{
 				from: join('../main.js'),
-				to: join('../app/build')
+				to: join(DIST_FILE_PATH)
+			},
+			{
+				from: join('../assets'),
+				to: join(DIST_FILE_PATH + '/assets')
 			},
 			{
 				from: join('../package.json'),
-				to: join('../app/build')
+				to: join(DIST_FILE_PATH)
 			}
 		])
 	]

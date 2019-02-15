@@ -44,7 +44,6 @@ module.exports = {
   plugins: [
     new ExtractTextPlugin({
       filename: 'bundle.css',
-      disable: false,
       allChunks: true
     }),
     new HtmlWebpackPlugin({

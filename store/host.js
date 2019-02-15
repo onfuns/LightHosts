@@ -62,17 +62,24 @@ class Menu {
     let cur_id = id || toJS(this.currentSelect).id
     let list = this.hostList
     let index = list.findIndex(item => item.id === cur_id)
+    let is_write_system_host = true //是否写入系统host
     if (type === 'host') {
       list[index].data = data
+      if (!list[index].enable) {
+        is_write_system_host = false
+      }
     } else if (type === 'menu') {
       list[index].enable = flag
     } else if (type === 'name') {
       list[index].name = name
+      is_write_system_host = false
     }
     this.hostList = list
     debounce(storage.set(FILE_NAME, { list }, () => {
-      const data = this.getEnableData(this.hostList)
-      this.write(data)
+      if (is_write_system_host) {
+        const data = this.getEnableData(this.hostList)
+        this.write(data)
+      }
     }), 500)()
     return this.hostList
   }

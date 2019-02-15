@@ -11,10 +11,10 @@ module.exports = merge(baseWebpackConfig, {
 	},
 	entry: [
 		'babel-polyfill',
-		path.join(__dirname, '../app/src/index.js')
+		path.join(__dirname, '../index.js')
 	],
 	output: {
-		path: path.join(__dirname, '../app/build'),
+		path: path.join(__dirname, '../dist'),
 		filename: 'app.bundle.js',
 		publicPath: './',
 	}
