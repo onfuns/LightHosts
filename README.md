@@ -1,14 +1,16 @@
 # LightHosts
 
+### 首页
 ![](https://github.com/onfuns/LightHosts/raw/master/screenshots/main.png)
 
-[下载地址](http://resource.onfuns.com/LightHosts.zip)
+### 安装
+![](https://github.com/onfuns/LightHosts/raw/master/screenshots/install.png)
 
 ### 开发
 npm run start  
-npm run dev
+npm run electron
 
-### 编译
-npm run build  
-npm run packageMac (mac平台)  
+### 打包
+npm run package:mac
+npm run package:win
 
