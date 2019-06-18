@@ -16,7 +16,13 @@ __DEV__ && require('electron-reload')(path.join(__dirname, rendererDevPath))
 /** init window begin */
 const initWindow = () => {
   win = createWindow({ title: app.getName(), width: 800, height: 500 })
-  win.loadURL('file://' + path.resolve(__dirname, `${__DEV__ ? rendererDevPath : rendererPath}/index.html`))
+  win.loadURL(
+    'file://' +
+      path.resolve(
+        __dirname,
+        `${__DEV__ ? rendererDevPath : rendererPath}/index.html`
+      )
+  )
   devtools.open && win.webContents.openDevTools({ mode: devtools.mode })
   //set tray
   tray = setTray(win)

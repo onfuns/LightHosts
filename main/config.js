@@ -4,6 +4,6 @@ module.exports = {
   rendererDevPath: '../dist',
   devtools: {
     open: false,
-    mode: 'bottom', // //detach right bottom
+    mode: 'bottom' // //detach right bottom
   }
 }

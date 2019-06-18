@@ -35,23 +35,24 @@ const Add = observer(({ onClose, form, hostStore, detail = {} }) => {
   const { getFieldDecorator } = form
   return (
     <Modal
-      title="host方案"
+      title='host方案'
       visible={true}
       width={450}
       onCancel={onClose}
-      onOk={handleSubmit}
-    >
+      onOk={handleSubmit}>
       <Form>
-        <FormItem
-          label="方案名称"
-          {...formItemLayout}
-        >
+        <FormItem label='方案名称' {...formItemLayout}>
           {getFieldDecorator('name', {
             initialValue: detail.name || '',
-            rules: [{ required: true, min: 2, max: 10, message: '名称由2 ~ 10个字符组成' }]
-          })(
-            <Input placeholder="名称由2 ~ 10个字符组成" />
-          )}
+            rules: [
+              {
+                required: true,
+                min: 2,
+                max: 10,
+                message: '名称由2 ~ 10个字符组成'
+              }
+            ]
+          })(<Input placeholder='名称由2 ~ 10个字符组成' />)}
         </FormItem>
       </Form>
     </Modal>

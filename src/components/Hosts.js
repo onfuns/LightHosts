@@ -10,7 +10,6 @@ import './hosts.less'
 
 @inject('hostStore')
 @observer
-
 class Hosts extends Component {
   constructor(props) {
     super(props)
@@ -22,12 +21,12 @@ class Hosts extends Component {
     this.codeMirrorEditor = CodeMirror.fromTextArea(this.editor, {
       className: 'custom-editor',
       lineNumbers: true,
-      mode: "shell",
+      mode: 'shell',
       theme: 'idea'
     })
-    this.codeMirrorEditor.on('change', (editor) => {
+    this.codeMirrorEditor.on('change', editor => {
       const value = editor.getValue()
-      this.store.update({ data: value, type: "host" })
+      this.store.update({ data: value, type: 'host' })
     })
 
     this.codeMirrorEditor.on('gutterClick', (cm, n) => {
@@ -38,11 +37,14 @@ class Hosts extends Component {
       let ln = info.text
       if (/^\s*$/.test(ln)) return
       let new_ln = /^#/.test(ln) ? ln.replace(/^#\s*/, '') : '# ' + ln
-      this.codeMirrorEditor.getDoc()
-        .replaceRange(new_ln, { line: info.line, ch: 0 }, {
+      this.codeMirrorEditor.getDoc().replaceRange(
+        new_ln,
+        { line: info.line, ch: 0 },
+        {
           line: info.line,
           ch: ln.length
-        })
+        }
+      )
     })
   }
 
@@ -67,9 +69,9 @@ class Hosts extends Component {
   render() {
     const { readOnly = false } = this.getRecord()
     return (
-      <div className="lay-host">
-        {readOnly && <Icon type="lock" className="host-readonly" />}
-        <textarea ref={(ref => this.editor = ref)}></textarea>
+      <div className='lay-host'>
+        {readOnly && <Icon type='lock' className='host-readonly' />}
+        <textarea ref={ref => (this.editor = ref)}></textarea>
       </div>
     )
   }

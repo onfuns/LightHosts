@@ -6,8 +6,11 @@ const execSync = require('child_process').execSync
 const storage = Bluebird.promisifyAll(require('electron-json-storage'))
 const fs = Bluebird.promisifyAll(require('fs'))
 
-const HOST_PATH = isWin ? 'C:\\Windows\\System32\\drivers\\etc\\hosts' : '/etc/hosts'
-const FILE_PATH = (isWin ? process.env.HOMEPATH : process.env.HOME) + '/.LightHosts'
+const HOST_PATH = isWin
+  ? 'C:\\Windows\\System32\\drivers\\etc\\hosts'
+  : '/etc/hosts'
+const FILE_PATH =
+  (isWin ? process.env.HOMEPATH : process.env.HOME) + '/.LightHosts'
 const FILE_NAME = 'HOST_FILE'
 storage.setDataPath(FILE_PATH)
 
@@ -22,7 +25,15 @@ class Menu {
       if (!list.length) {
         fs.readFile(HOST_PATH, 'utf-8', async (err, data) => {
           if (!err) {
-            let list = [{ id: shortid.generate(), name: '系统HOSTS', enable: true, data, readOnly: true }] //系统host默认开启
+            let list = [
+              {
+                id: shortid.generate(),
+                name: '系统HOSTS',
+                enable: true,
+                data,
+                readOnly: true
+              }
+            ] //系统host默认开启
             await storage.setAsync(FILE_NAME, { list })
             this.hostList = list
             this.currentSelect = list[0]
@@ -49,7 +60,13 @@ class Menu {
   add = async ({ name }) => {
     try {
       let { list } = await storage.getAsync(FILE_NAME)
-      list.push({ id: shortid.generate(), name, data: `# ${name} 方案\n`, enable: false, readOnly: false })
+      list.push({
+        id: shortid.generate(),
+        name,
+        data: `# ${name} 方案\n`,
+        enable: false,
+        readOnly: false
+      })
       await storage.setAsync(FILE_NAME, { list })
       this.hostList = list
     } catch (err) {
@@ -75,20 +92,23 @@ class Menu {
       is_write_system_host = false
     }
     this.hostList = list
-    debounce(storage.set(FILE_NAME, { list }, () => {
-      if (is_write_system_host) {
-        const data = this.getEnableData(this.hostList)
-        this.write(data)
-      }
-    }), 500)()
+    debounce(
+      storage.set(FILE_NAME, { list }, () => {
+        if (is_write_system_host) {
+          const data = this.getEnableData(this.hostList)
+          this.write(data)
+        }
+      }),
+      500
+    )()
     return this.hostList
   }
 
   //写入系统host
 
-  write = (data) => {
+  write = data => {
     try {
-      fs.writeFile(HOST_PATH, data, (err) => {
+      fs.writeFile(HOST_PATH, data, err => {
         if (err) {
           if (isWin) {
             alert('请使用管理员模式运行')
@@ -103,25 +123,29 @@ class Menu {
   }
 
   //删除方案
-  delete = (id) => {
+  delete = id => {
     const index = this.hostList.findIndex(item => item.id === id)
-    if (id === this.currentSelect.id) { //删除的是当前选中
+    if (id === this.currentSelect.id) {
+      //删除的是当前选中
       this.currentSelect = this.hostList[index - 1]
     }
     this.hostList.splice(index, 1)
-    debounce(storage.set(FILE_NAME, { list: this.hostList }, () => {
-      const data = this.getEnableData(this.hostList)
-      this.write(data)
-    }), 500)()
+    debounce(
+      storage.set(FILE_NAME, { list: this.hostList }, () => {
+        const data = this.getEnableData(this.hostList)
+        this.write(data)
+      }),
+      500
+    )()
   }
 
   //切换方案
-  select = (item) => {
+  select = item => {
     this.currentSelect = item
   }
 
   //获取开启的方案
-  getEnableData = (list) => {
+  getEnableData = list => {
     list = list.filter(item => item.enable === true)
     let data = ''
     for (let i in list) {
@@ -133,7 +157,7 @@ class Menu {
   //启用方案
   enable = async (id, flag) => {
     try {
-      const list = this.update({ id, flag, type: "menu" })
+      const list = this.update({ id, flag, type: 'menu' })
       const data = this.getEnableData(list)
       this.write(data)
     } catch (err) {
@@ -142,17 +166,17 @@ class Menu {
   }
 
   //设置添加 & 编辑 弹层
-  setAddModal = (flag) => {
+  setAddModal = flag => {
     this.showAddMdoal = flag
   }
 
   //设置密码弹层
-  setPwdModal = (flag) => {
+  setPwdModal = flag => {
     this.showPwdModal = flag
   }
 
   //设置密码
-  setPwd = (pwd) => {
+  setPwd = pwd => {
     let msg = ''
     try {
       execSync(`echo '${pwd}' | sudo -S chmod 777 ${HOST_PATH}`)

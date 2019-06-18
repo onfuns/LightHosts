@@ -36,26 +36,22 @@ class Add extends Component {
     const { getFieldDecorator } = this.props.form
     return (
       <Modal
-        title="系统密码"
+        title='系统密码'
         visible={true}
         width={500}
         onCancel={this.props.onClose}
-        onOk={this.handleSubmit}
-      >
+        onOk={this.handleSubmit}>
         <Form>
-          <FormItem
-            label="密码（sudo）"
-            {...formItemLayout}
-          >
+          <FormItem label='密码（sudo）' {...formItemLayout}>
             {getFieldDecorator('password', {
               initialValue: '',
-              rules: [{
-                required: true,
-                message: '请输入sudo密码',
-              }],
-            })(
-              <Input type="password" placeholder="请输入sudo密码" />
-            )}
+              rules: [
+                {
+                  required: true,
+                  message: '请输入sudo密码'
+                }
+              ]
+            })(<Input type='password' placeholder='请输入sudo密码' />)}
           </FormItem>
         </Form>
       </Modal>

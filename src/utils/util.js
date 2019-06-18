@@ -34,18 +34,18 @@ export const clearCacheByKey = key => {
 
 export const debounce = (callback, delay) => {
   let timeId = null
-  return function () {
+  return function() {
     timeId && clearTimeout(timeId)
     timeId = setTimeout(callback, delay)
   }
 }
 
-export const needPwd = (str) => {
+export const needPwd = str => {
   str = str.toLowerCase()
   let keys = [
-    'Permission denied'
-    , 'incorrect password'
-    , 'Password:Sorry, try again.'
+    'Permission denied',
+    'incorrect password',
+    'Password:Sorry, try again.'
   ]
   return !!keys.find(k => str.includes(k.toLowerCase()))
 }

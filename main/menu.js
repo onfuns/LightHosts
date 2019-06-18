@@ -45,9 +45,7 @@ export const defaultMenu = [
       {
         label: '关于',
         click() {
-          shell.openExternal(
-            'https://github.com/onfuns/LightHosts'
-          )
+          shell.openExternal('https://github.com/onfuns/LightHosts')
         }
       }
     ]
