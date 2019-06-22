@@ -1,9 +1,8 @@
 const { app, Menu, Tray } = require('electron')
-const path = require('path')
 const { trayIcon } = require('./config')
 
 const setTray = (win, options = []) => {
-  let tray = new Tray(path.join(__dirname, '../', trayIcon))
+  let tray = new Tray(trayIcon)
   const trayMemu = [
     {
       label: app.getName(),

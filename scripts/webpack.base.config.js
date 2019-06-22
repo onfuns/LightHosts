@@ -1,15 +1,11 @@
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
-const path = require('path')
 const theme = require('./theme')
 const config = require('./config')
 
 module.exports = {
   entry: {
-    app: [
-      '@babel/polyfill',
-      path.join(__dirname, `${config.build.basePath}/index.js`)
-    ]
+    app: `${config.build.basePath}/index.js`
   },
   module: {
     rules: [
@@ -21,8 +17,7 @@ module.exports = {
             loader: 'css-loader',
             options: {
               modules: false,
-              url: false,
-              minimize: true
+              url: false
             }
           },
           {
@@ -51,7 +46,7 @@ module.exports = {
       filename: 'bundle.css'
     }),
     new HtmlWebpackPlugin({
-      template: path.join(__dirname, config.build.template)
+      template: config.build.template
     })
   ],
   node: {

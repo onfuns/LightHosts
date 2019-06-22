@@ -1,7 +1,10 @@
+const path = require('path')
+const join = name => path.join(__dirname, name)
+
 module.exports = {
-  trayIcon: 'resources/icon@16*16.png',
-  rendererPath: '../renderer_process',
-  rendererDevPath: '../dist',
+  trayIcon: join('../resources/icon@16x16.png'),
+  rendererPath: join('../renderer_process'),
+  rendererDevPath: join('../dist'),
   devtools: {
     open: false,
     mode: 'bottom' // //detach right bottom

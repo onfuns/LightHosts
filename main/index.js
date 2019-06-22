@@ -1,5 +1,4 @@
 const { app } = require('electron')
-const path = require('path')
 const { setMenu } = require('./menu')
 const { setTray } = require('./tray')
 const { createWindow } = require('./window')
@@ -11,17 +10,13 @@ let win = null
 let tray = null
 
 //reload when file modified
-__DEV__ && require('electron-reload')(path.join(__dirname, rendererDevPath))
+__DEV__ && require('electron-reload')(rendererDevPath)
 
 /** init window begin */
 const initWindow = () => {
   win = createWindow({ title: app.getName(), width: 800, height: 500 })
   win.loadURL(
-    'file://' +
-      path.resolve(
-        __dirname,
-        `${__DEV__ ? rendererDevPath : rendererPath}/index.html`
-      )
+    'file://' + `${__DEV__ ? rendererDevPath : rendererPath}/index.html`
   )
   devtools.open && win.webContents.openDevTools({ mode: devtools.mode })
   //set tray

@@ -1,5 +1,4 @@
 const webpack = require('webpack')
-const path = require('path')
 const merge = require('webpack-merge')
 const baseWebpackConfig = require('./webpack.base.config')
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer')
@@ -8,8 +7,8 @@ const config = require('./config')
 const prodConfig = merge(baseWebpackConfig, {
   mode: config.build.env,
   output: {
-    path: path.join(__dirname, config.build.output),
-    filename: 'app.bundle.js',
+    path: config.build.output,
+    filename: '[name].bundle.js',
     publicPath: config.build.publicPath,
     chunkFilename: '[name].js'
   },

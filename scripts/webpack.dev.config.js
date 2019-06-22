@@ -1,5 +1,4 @@
 const merge = require('webpack-merge')
-const path = require('path')
 const config = require('./config')
 const baseWebpackConfig = require('./webpack.base.config')
 
@@ -11,8 +10,8 @@ module.exports = merge(baseWebpackConfig, {
     ignored: /node_modules/
   },
   output: {
-    path: path.join(__dirname, config.dev.output),
-    filename: 'app.bundle.js',
+    path: config.dev.output,
+    filename: '[name].bundle.js',
     publicPath: config.dev.publicPath
   }
 })
