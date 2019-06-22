@@ -23,6 +23,12 @@
     "indent": ["off", 2],
     "linebreak-style": ["off", "unix"],
     "quotes": ["off", "single"],
-    "semi": ["off", "never"]
+    "semi": ["off", "never"],
+    "react/display-name": [
+      "off",
+      {
+        "ignoreTranspilerName": false
+      }
+    ]
   }
 }
