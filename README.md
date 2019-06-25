@@ -12,5 +12,6 @@ npm run electron
 
 ### 打包
 npm run package:mac
+
 npm run package:win
 
