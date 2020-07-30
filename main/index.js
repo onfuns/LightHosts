@@ -18,6 +18,7 @@ const initWindow = () => {
   win.loadURL(
     'file://' + `${__DEV__ ? rendererDevPath : rendererPath}/index.html`
   )
+
   devtools.open && win.webContents.openDevTools({ mode: devtools.mode })
   //set tray
   tray = setTray(win)

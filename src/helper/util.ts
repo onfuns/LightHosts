@@ -4,7 +4,7 @@ export const { BrowserWindow } = remote
 
 export const createNewWindow = (options: any = {}) => {
   const win = new BrowserWindow({
-    webPreferences: { webSecurity: false },
+    webPreferences: { webSecurity: false, nodeIntegration: true },
     height: 600,
     width: 1100,
     frame: false,
@@ -50,5 +50,3 @@ export const formatPasswordMesaage = str => {
   ]
   return !!keys.find(k => str.toLowerCase().includes(k.toLowerCase()))
 }
-
-export const isWin = process.platform === 'win32'
