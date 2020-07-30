@@ -1,7 +1,7 @@
 import { observable, action, toJS } from 'mobx'
 import shortid from 'shortid'
 import Bluebird from 'bluebird'
-import { needPwd, debounce, isWin } from '../utils/util'
+import { formatPasswordMesaage, debounce, isWin } from '../helper/util'
 const execSync = require('child_process').execSync
 const storage = Bluebird.promisifyAll(require('electron-json-storage'))
 const fs = Bluebird.promisifyAll(require('fs'))
@@ -14,32 +14,37 @@ const FILE_PATH =
 const FILE_NAME = 'HOST_FILE'
 storage.setDataPath(FILE_PATH)
 
+interface ListProps {
+  id: string
+  name: string
+  enable: boolean
+  data: string
+  readOnly: boolean
+}
+
 class Menu {
   constructor() {
     this.init()
   }
 
-  init = async () => {
+  async init() {
     try {
       const { list = [] } = await storage.getAsync(FILE_NAME)
       if (!list.length) {
-        fs.readFile(HOST_PATH, 'utf-8', async (err, data) => {
-          if (!err) {
-            let list = [
-              {
-                id: shortid.generate(),
-                name: '系统HOSTS',
-                enable: true,
-                data,
-                readOnly: true
-              }
-            ] //系统host默认开启
-            await storage.setAsync(FILE_NAME, { list })
-            this.hostList = list
-            this.currentSelect = list[0]
-          } else {
-            console.log(err)
-          }
+        fs.readFile(HOST_PATH, 'utf-8', async (err: any, data: string) => {
+          if (err) return console.log(err)
+          let list: ListProps[] = [
+            {
+              id: shortid.generate(),
+              name: '系统HOSTS',
+              enable: true,
+              data,
+              readOnly: true
+            }
+          ] //系统host默认开启
+          await storage.setAsync(FILE_NAME, { list })
+          this.hostList = list
+          this.currentSelect = list[0]
         })
       } else {
         this.hostList = list
@@ -50,14 +55,14 @@ class Menu {
     }
   }
 
-  @observable hostList = []
-  @observable currentSelect = {}
-  @observable showAddMdoal = false
-  @observable showPwdModal = false
+  @observable hostList: ListProps[] = []
+  @observable currentSelect = <ListProps>{}
+  @observable showAddMdoal: boolean = false
+  @observable showPwdModal: boolean = false
 
   @action
   //添加方案
-  add = async ({ name }) => {
+  async add({ name }) {
     try {
       let { list } = await storage.getAsync(FILE_NAME)
       list.push({
@@ -75,26 +80,38 @@ class Menu {
   }
 
   //更新方案
-  update = ({ flag, data, type, name = '', id = '' }) => {
-    let cur_id = id || toJS(this.currentSelect).id
-    let list = this.hostList
-    let index = list.findIndex(item => item.id === cur_id)
-    let is_write_system_host = true //是否写入系统host
+  update({
+    flag,
+    data,
+    type,
+    name = '',
+    id = ''
+  }: {
+    flag: boolean
+    data?: any
+    type: string
+    name?: string
+    id: string
+  }) {
+    const cur_id = id || toJS(this.currentSelect).id
+    const list = this.hostList
+    const index = list.findIndex(item => item.id === cur_id)
+    let isWriteSystemHost = true //是否写入系统host
     if (type === 'host') {
       list[index].data = data
       if (!list[index].enable) {
-        is_write_system_host = false
+        isWriteSystemHost = false
       }
     } else if (type === 'menu') {
       list[index].enable = flag
     } else if (type === 'name') {
       list[index].name = name
-      is_write_system_host = false
+      isWriteSystemHost = false
     }
     this.hostList = list
     debounce(
       storage.set(FILE_NAME, { list }, () => {
-        if (is_write_system_host) {
+        if (isWriteSystemHost) {
           const data = this.getEnableData(this.hostList)
           this.write(data)
         }
@@ -105,14 +122,13 @@ class Menu {
   }
 
   //写入系统host
-
-  write = data => {
+  write(data) {
     try {
       fs.writeFile(HOST_PATH, data, err => {
         if (err) {
           if (isWin) {
             alert('请使用管理员模式运行')
-          } else if (!isWin && needPwd(err.message)) {
+          } else if (!isWin && formatPasswordMesaage(err.message)) {
             this.setPwdModal(true)
           }
         }
@@ -123,10 +139,10 @@ class Menu {
   }
 
   //删除方案
-  delete = id => {
+  delete(id) {
     const index = this.hostList.findIndex(item => item.id === id)
+    //如果删除的是当前选中则上移一位
     if (id === this.currentSelect.id) {
-      //删除的是当前选中
       this.currentSelect = this.hostList[index - 1]
     }
     this.hostList.splice(index, 1)
@@ -140,12 +156,12 @@ class Menu {
   }
 
   //切换方案
-  select = item => {
+  select(item) {
     this.currentSelect = item
   }
 
   //获取开启的方案
-  getEnableData = list => {
+  getEnableData(list) {
     list = list.filter(item => item.enable === true)
     let data = ''
     for (let i in list) {
@@ -155,7 +171,7 @@ class Menu {
   }
 
   //启用方案
-  enable = async (id, flag) => {
+  async enable(id, flag: boolean) {
     try {
       const list = this.update({ id, flag, type: 'menu' })
       const data = this.getEnableData(list)
@@ -166,17 +182,17 @@ class Menu {
   }
 
   //设置添加 & 编辑 弹层
-  setAddModal = flag => {
+  setAddModal(flag: boolean) {
     this.showAddMdoal = flag
   }
 
   //设置密码弹层
-  setPwdModal = flag => {
+  setPwdModal(flag: boolean) {
     this.showPwdModal = flag
   }
 
   //设置密码
-  setPwd = pwd => {
+  setPwd(pwd: string) {
     let msg = ''
     try {
       execSync(`echo '${pwd}' | sudo -S chmod 777 ${HOST_PATH}`)

@@ -1,6 +1,6 @@
-import React from 'react'
+import * as React from 'react'
 import Menu from '../../components/Menu'
-import Hosts from '../../components/Hosts'
+import Hosts from '../../components/Host'
 import './style.less'
 
 export default () => (

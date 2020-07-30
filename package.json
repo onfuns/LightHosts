@@ -1,12 +1,12 @@
 {
-  "name": "LightHosts",
-  "version": "0.0.2",
+  "name": "lighthosts",
+  "version": "0.1.0",
   "author": {
     "name": "onfuns",
     "url": "https://github.com/onfuns"
   },
   "main": "./main.js",
-  "description": "LightHosts",
+  "description": "host manage tool,host gui",
   "scripts": {
     "eslint": "eslint src",
     "start": "webpack --config ./scripts/webpack.dev.config.js",
@@ -24,7 +24,7 @@
   "jest": {
     "testRegex": "/__tests__/.*\\.(ts|js)$"
   },
-  "prettier": "@frontend-cli/prettier-config",
+  "prettier": "@wcli/prettier-config",
   "husky": {
     "hooks": {
       "pre-commit": "pretty-quick --staged"
@@ -35,6 +35,7 @@
     "react"
   ],
   "devDependencies": {
+    "@ant-design/icons": "^4.2.1",
     "@babel/cli": "^7.4.4",
     "@babel/core": "^7.4.5",
     "@babel/plugin-proposal-class-properties": "^7.4.4",
@@ -44,17 +45,25 @@
     "@babel/plugin-transform-runtime": "^7.4.4",
     "@babel/preset-env": "^7.4.5",
     "@babel/preset-react": "^7.0.0",
-    "@frontend-cli/prettier-config": "^1.0.3",
-    "antd": "^3.19.7",
+    "@babel/preset-typescript": "^7.10.4",
+    "@types/react": "^16.8.23",
+    "@types/react-dom": "^16.8.4",
+    "@types/react-loadable": "^5.5.1",
+    "@types/react-router-config": "^5.0.0",
+    "@types/react-router-dom": "^4.3.4",
+    "@wcli/prettier-config": "^0.0.1",
+    "antd": "^4.5.0",
+    "antd-dayjs-webpack-plugin": "^0.0.9",
     "babel-eslint": "^10.0.2",
     "babel-loader": "^8.0.6",
     "babel-plugin-import": "^1.12.0",
+    "classnames": "^2.2.6",
     "codemirror": "^5.48.0",
     "core-js": "^3.1.4",
     "cross-env": "^5.2.0",
     "css-loader": "^3.0.0",
-    "electron": "^4.2.5",
-    "electron-builder": "^20.44.4",
+    "electron": "^9.0.0",
+    "electron-builder": "^22.8.0",
     "electron-json-storage": "^4.1.6",
     "electron-reload": "^1.4.0",
     "eslint": "^6.0.0",
@@ -79,6 +88,9 @@
     "rimraf": "^2.6.3",
     "shortid": "^2.2.14",
     "style-loader": "^0.23.1",
+    "ts-import-plugin": "^1.6.6",
+    "ts-loader": "^8.0.1",
+    "typescript": "^3.9.7",
     "url-loader": "^2.0.0",
     "webpack": "^4.35.0",
     "webpack-bundle-analyzer": "^3.3.2",
@@ -86,6 +98,9 @@
     "webpack-merge": "^4.2.1"
   },
   "dependencies": {},
+  "electronDownload": {
+    "mirror": "https://npm.taobao.org/mirrors/electron/"
+  },
   "build": {
     "appId": "LightHosts",
     "productName": "LightHosts",

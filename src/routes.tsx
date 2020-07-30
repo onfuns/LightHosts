@@ -1,6 +1,7 @@
 import React from 'react'
 import { renderRoutes } from 'react-router-config'
 import Loadable from 'react-loadable'
+import HomePage from './pages/Home'
 
 const loading = ({ error, pastDelay }) => {
   if (error) {
@@ -12,23 +13,17 @@ const loading = ({ error, pastDelay }) => {
   }
 }
 const delay = 200
-const Root = ({ route }) => renderRoutes(route.routes)
-
-export default function() {
-  const routes = [
+export default () => {
+  const routes: any = [
     {
-      component: Root,
-      routes: [
-        {
-          path: '/',
-          exact: true,
-          component: Loadable({
-            loader: () => import('./pages/Home'),
-            loading,
-            delay
-          })
-        }
-      ]
+      path: '/',
+      //exact: true,
+      component: HomePage
+      // component: Loadable({
+      //   loader: () => import('./pages/Home'),
+      //   loading,
+      //   delay
+      // })
     }
   ]
   return renderRoutes(routes)
