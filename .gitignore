@@ -9,4 +9,5 @@ packages
 dist
 main_process
 renderer_process
+.env
 

@@ -1,42 +1,4 @@
 {
-  "presets": [
-    [
-      "@babel/preset-env",
-      {
-        "targets": {
-          "browsers": [
-            "> 1%",
-            "last 2 versions",
-            "not ie <= 8"
-          ]
-        },
-        "useBuiltIns": "usage",
-        "corejs": 3
-      }
-    ],
-    "@babel/preset-react"
-  ],
-  "plugins": [
-    "@babel/plugin-syntax-dynamic-import",
-    [
-      "@babel/plugin-proposal-decorators",
-      {
-        "legacy": true
-      }
-    ],
-    [
-      "@babel/plugin-proposal-class-properties",
-      {
-        "loose": true
-      }
-    ],
-    "@babel/plugin-transform-modules-commonjs",
-    [
-      "import",
-      {
-        "libraryName": "antd",
-        "style": true
-      }
-    ]
-  ]
+  "presets": [["@babel/preset-env"]],
+  "plugins": []
 }

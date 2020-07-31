@@ -1,0 +1,61 @@
+const AntdDayjsWebpackPlugin = require('antd-dayjs-webpack-plugin')
+const Dotenv = require('dotenv-webpack')
+const path = require('path')
+const fs = require('fs')
+const join = file => path.join(__dirname, file)
+//写入配置环境
+const envConfig = `
+HOMEPATH = ${process.env.HOMEPATH || process.env.HOME}
+OS = ${process.platform}
+`
+fs.writeFileSync('.env', envConfig, 'utf-8')
+
+module.exports = {
+  envs: ['dev'],
+  theme: require('./src/theme'),
+  webpack: {
+    dev: {},
+    output: {
+      filename: '[name].js',
+      publicPath: './'
+    },
+    build: {
+      assets: 'static',
+      bundleAnaly: false
+    },
+    devMiddleware: {
+      //写入磁盘
+      writeToDisk: true
+    },
+    //不用热更新
+    hotload: false,
+    cssConfig: {
+      module: false
+    },
+    plugins: [
+      //替换 antd中 moment 为 dayjs
+      new AntdDayjsWebpackPlugin(),
+      new Dotenv()
+    ]
+  },
+  injectWebpack: function(config) {
+    //如果是打包则修改配置
+    if (process.env.RUN_TYPE === 'BUILD') {
+      config.output.path = join('./renderer_process')
+    }
+    return {
+      ...config,
+      node: {
+        __dirname: false,
+        __filename: false
+      },
+      target: 'electron-renderer'
+    }
+  },
+  babelConfig: {
+    //转es5包含文件
+    inlude: [],
+    //自定义插件
+    plugins: []
+  }
+}

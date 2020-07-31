@@ -1,10 +1,10 @@
-const electron = global.require('electron')
+const electron = require('electron')
 export const { remote } = electron
 export const { BrowserWindow } = remote
 
-export const createNewWindow = (options = {}) => {
+export const createNewWindow = (options: any = {}) => {
   const win = new BrowserWindow({
-    webPreferences: { webSecurity: false },
+    webPreferences: { webSecurity: false, nodeIntegration: true },
     height: 600,
     width: 1100,
     frame: false,
@@ -21,11 +21,13 @@ export const createNewWindow = (options = {}) => {
 }
 
 export const saveCache = (key, value) => {
-  localStorage.setItem(key, JSON.stringify(value))
+  const val = typeof value === 'string' ? value : JSON.stringify(value)
+  localStorage.setItem(key, val)
 }
 
 export const getCache = key => {
-  return JSON.parse(localStorage.getItem(key))
+  const value = localStorage.getItem(key)
+  return typeof value === 'string' ? value : JSON.parse(value)
 }
 
 export const clearCacheByKey = key => {
@@ -34,20 +36,17 @@ export const clearCacheByKey = key => {
 
 export const debounce = (callback, delay) => {
   let timeId = null
-  return function() {
+  return () => {
     timeId && clearTimeout(timeId)
     timeId = setTimeout(callback, delay)
   }
 }
 
-export const needPwd = str => {
-  str = str.toLowerCase()
-  let keys = [
+export const formatPasswordMesaage = str => {
+  const keys = [
     'Permission denied',
     'incorrect password',
     'Password:Sorry, try again.'
   ]
-  return !!keys.find(k => str.includes(k.toLowerCase()))
+  return !!keys.find(k => str.toLowerCase().includes(k.toLowerCase()))
 }
-
-export const isWin = process.platform === 'win32'
