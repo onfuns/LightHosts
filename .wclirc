@@ -1,6 +1,8 @@
 const AntdDayjsWebpackPlugin = require('antd-dayjs-webpack-plugin')
 const Dotenv = require('dotenv-webpack')
+const path = require('path')
 const fs = require('fs')
+const join = file => path.join(__dirname, file)
 //写入配置环境
 const envConfig = `
 HOMEPATH = ${process.env.HOMEPATH || process.env.HOME}
@@ -10,9 +12,6 @@ fs.writeFileSync('.env', envConfig, 'utf-8')
 
 module.exports = {
   envs: ['dev'],
-  ts: {
-    mode: true
-  },
   theme: require('./src/theme'),
   webpack: {
     dev: {},
@@ -22,9 +21,8 @@ module.exports = {
     },
     build: {
       assets: 'static',
-      bundleAnaly: true
+      bundleAnaly: false
     },
-    proxy: {},
     devMiddleware: {
       //写入磁盘
       writeToDisk: true
@@ -41,6 +39,10 @@ module.exports = {
     ]
   },
   injectWebpack: function(config) {
+    //如果是打包则修改配置
+    if (process.env.RUN_TYPE === 'BUILD') {
+      config.output.path = join('./renderer_process')
+    }
     return {
       ...config,
       node: {

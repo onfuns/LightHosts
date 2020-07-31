@@ -1,7 +1,8 @@
-import React, { useEffect, useRef, useCallback } from 'react'
+import React, { useEffect, useRef } from 'react'
 import { LockOutlined } from '@ant-design/icons'
 import CodeMirror from 'codemirror/lib/codemirror'
 import 'codemirror/mode/shell/shell'
+import { HostProps } from '../../interface/host.interface'
 import { toJS } from 'mobx'
 import { inject, observer } from 'mobx-react'
 import './host.less'
@@ -11,7 +12,7 @@ const Hosts = observer(props => {
   const { hostStore } = props
   const textAreaRef = useRef()
 
-  const getSelected = () => {
+  const getSelected = (): HostProps => {
     const { currentSelect = {} } = hostStore
     return toJS(currentSelect)
   }
@@ -66,7 +67,6 @@ const Hosts = observer(props => {
   })
 
   const { readOnly } = getSelected()
-
   return (
     <div className='lay-host'>
       {!!readOnly && <LockOutlined className='host-readonly' />}

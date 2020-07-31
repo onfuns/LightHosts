@@ -1,6 +1,6 @@
 {
   "name": "lighthosts",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "author": {
     "name": "onfuns",
     "url": "https://github.com/onfuns"
@@ -8,21 +8,16 @@
   "main": "./main.js",
   "description": "host manage tool,host gui",
   "scripts": {
-    "build:dev": "wcli build -t dev",
-    "build:prod": "wcli build -t prod",
     "start": "wcli start",
-    "eslint": "eslint src",
-    "start_bak": "webpack --config ./scripts/webpack.dev.config.js",
     "electron": "npm run build:main && cross-env NODE_ENV=development electron .",
-    "build:renderer": "rimraf ./renderer_process && cross-env NODE_ENV=production webpack -p --progress --color --config ./scripts/webpack.prod.config.js",
-    "build:main": "rimraf ./main_process && babel ./main --out-dir ./main_process",
     "build": "npm run build:main && npm run build:renderer",
+    "build:main": "rimraf ./main_process && babel ./main --out-dir ./main_process",
+    "build:renderer": "rimraf ./renderer_process && wcli build -t prod",
     "package:mac": "npm run build && electron-builder --mac",
     "package:win": "npm run build && electron-builder --win --ia32 ",
     "package:linux": "npm run build && electron-builder --linux",
     "package:all": "npm run build && electron-builder -mwl",
-    "pretty": "prettier --write '{src,main,scripts}/**/*.{jsx,tsx,ts,js}'",
-    "test": "jest src"
+    "test": "jest"
   },
   "jest": {
     "testRegex": "/__tests__/.*\\.(ts|js)$"
@@ -41,14 +36,7 @@
     "@ant-design/icons": "^4.2.1",
     "@babel/cli": "^7.4.4",
     "@babel/core": "^7.4.5",
-    "@babel/plugin-proposal-class-properties": "^7.4.4",
-    "@babel/plugin-proposal-decorators": "^7.4.4",
-    "@babel/plugin-syntax-dynamic-import": "^7.2.0",
-    "@babel/plugin-transform-modules-commonjs": "^7.4.4",
-    "@babel/plugin-transform-runtime": "^7.4.4",
-    "@babel/preset-env": "^7.4.5",
-    "@babel/preset-react": "^7.0.0",
-    "@babel/preset-typescript": "^7.10.4",
+    "@babel/preset-env": "^7.10.4",
     "@types/react": "^16.8.23",
     "@types/react-dom": "^16.8.4",
     "@types/react-loadable": "^5.5.1",
@@ -58,49 +46,30 @@
     "@wcli/prettier-config": "^0.0.1",
     "antd": "^4.5.0",
     "antd-dayjs-webpack-plugin": "^0.0.9",
-    "babel-eslint": "^10.0.2",
-    "babel-loader": "^8.0.6",
-    "babel-plugin-import": "^1.12.0",
     "classnames": "^2.2.6",
     "codemirror": "^5.48.0",
     "core-js": "^3.1.4",
     "cross-env": "^5.2.0",
-    "css-loader": "^3.0.0",
+    "cz-conventional-changelog": "^3.2.0",
     "dotenv-webpack": "^2.0.0",
     "electron": "^9.0.0",
     "electron-builder": "^22.8.0",
     "electron-json-storage": "^4.1.6",
     "electron-reload": "^1.4.0",
     "eslint": "^6.0.0",
-    "eslint-plugin-jest": "^22.7.0",
-    "eslint-plugin-react": "^7.13.0",
-    "html-webpack-plugin": "^3.2.0",
     "husky": "^2.4.1",
     "jest": "^24.8.0",
-    "less": "^3.9.0",
-    "less-loader": "^5.0.0",
-    "mini-css-extract-plugin": "^0.7.0",
     "mobx": "^5.10.1",
     "mobx-react": "^6.1.1",
     "prettier": "^1.18.2",
     "pretty-quick": "^1.11.1",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
-    "react-loadable": "^5.5.0",
-    "react-router": "^5.0.1",
     "react-router-config": "^5.0.1",
     "react-router-dom": "^5.0.1",
     "rimraf": "^2.6.3",
     "shortid": "^2.2.14",
-    "style-loader": "^0.23.1",
-    "ts-import-plugin": "^1.6.6",
-    "ts-loader": "^8.0.1",
-    "typescript": "^3.9.7",
-    "url-loader": "^2.0.0",
-    "webpack": "^4.35.0",
-    "webpack-bundle-analyzer": "^3.3.2",
-    "webpack-cli": "^3.3.4",
-    "webpack-merge": "^4.2.1"
+    "typescript": "^3.9.7"
   },
   "dependencies": {},
   "electronDownload": {
@@ -154,5 +123,10 @@
     "createDesktopShortcut": true,
     "createStartMenuShortcut": true,
     "shortcutName": "LightHosts"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
   }
 }

@@ -2,12 +2,10 @@ import * as React from 'react'
 import { Input, Form, Modal, message } from 'antd'
 import { inject, observer } from 'mobx-react'
 const FormItem = Form.Item
-
 interface DetailProps {
-  id: string
-  name: string
+  id?: string
+  name?: string
 }
-
 interface AddProps {
   onClose: () => void
   hostStore?: any
@@ -23,13 +21,12 @@ const Add = observer(
     detail: { id = '', name = '' }
   }: AddProps) => {
     const [form] = Form.useForm()
-
     const onOK = async () => {
       const { hostName } = await form.validateFields()
       try {
         const { hostList, update, add } = hostStore
         if (hostList.includes(hostName)) {
-          return message.warn('已有同名文件')
+          return message.warn('方案名重复')
         }
         if (id) {
           await update({ id, name: hostName, type: 'name' })
@@ -39,7 +36,6 @@ const Add = observer(
         message.success(`操作成功`)
         onClose()
       } catch (err) {
-        console.log(err)
         message.error(`操作失败`)
       }
     }
