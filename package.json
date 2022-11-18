@@ -42,7 +42,7 @@
     "@types/react-loadable": "^5.5.1",
     "@types/react-router-config": "^5.0.0",
     "@types/react-router-dom": "^4.3.4",
-    "@wcli/cli": "0.0.7",
+    "@wcli/cli": "1.0.5-beta.0",
     "@wcli/prettier-config": "^0.0.1",
     "antd": "^4.5.0",
     "antd-dayjs-webpack-plugin": "^0.0.9",
